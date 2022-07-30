@@ -9,5 +9,5 @@ public interface NewsDao {
 
     boolean getNewsByUrl(News news);
 
-    List<News> getNews(String title);
+    List<News> getNews(String search);
 }

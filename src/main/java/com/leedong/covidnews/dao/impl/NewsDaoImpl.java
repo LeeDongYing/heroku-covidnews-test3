@@ -71,13 +71,18 @@ public class NewsDaoImpl implements NewsDao {
     }
 
     @Override
-    public List<News> getNews(String title) {
+    public List<News> getNews(String search) {
         String sql = "SELECT title,content,connectUrl,created_date,modified_date \n" +
-                "FROM news WHERE 1=1 AND title LIKE :title OR content LIKE :title";
+                "FROM news WHERE 1=1";
 
         Map<String,Object> map = new HashMap<>();
-        map.put("title","%" + title + "%");
-        map.put("content","%" + title + "%");
+
+        if(search != null){
+            sql += " AND title LIKE :search OR content LIKE :search";
+            map.put("title","%" + search + "%");
+            map.put("content","%" + search + "%");
+        }
+
 
         List<News> newsList = namedParameterJdbcTemplate.query(sql,map,new NewsRowMapper());
 

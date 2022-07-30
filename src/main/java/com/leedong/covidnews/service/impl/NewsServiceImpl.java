@@ -25,9 +25,9 @@ public class NewsServiceImpl implements NewsService {
     private NewsDao newsDao;
 
     @Override
-    public List<News> getNews(String title) throws JsonProcessingException, ParseException {
+    public List<News> getNews(String search) throws JsonProcessingException, ParseException {
 
-        return newsDao.getNews(title);
+        return newsDao.getNews(search);
     }
 
     @Override

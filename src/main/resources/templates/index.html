@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <title>Product Manager</title>
+    <title>News</title>
 </head>
 <body>
 <div align="center">
@@ -15,6 +15,7 @@
             <th>title</th>
             <th>content</th>
             <th>connectionUrl</th>
+            <th>datalist</th>
             <th>createdDate</th>
             <th>modifiedDate</th>
         </tr>
@@ -24,13 +25,16 @@
             <td th:text="${news.title}">Product ID</td>
             <td th:text="${news.content}">Name</td>
             <td th:text="${news.connectionUrl}">Brand</td>
+
+            <td th:each="data : ${news.dataList}">
+                th:text="${data.explanation}"<br>
+                th:text="${data.name}"<br>
+                th:text="${data.connection}"<br>
+            </td>
+
             <td th:text="${news.createdDate}">Made in</td>
             <td th:text="${news.modifiedDate}">Price</td>
-<!--            <td >-->
-<!--                <a th:href="/@{'/edit/' + ${product.id}}">Edit</a>-->
-<!--                &nbsp;&nbsp;&nbsp;-->
-<!--                <a th:href="/@{'/delete/' + ${product.id}}">Delete</a>-->
-<!--            </td>-->
+
         </tr>
         </tbody>
     </table>

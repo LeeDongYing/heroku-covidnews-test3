@@ -29,9 +29,9 @@ public class NewsController {
 
     @GetMapping("/news")
     @Validated
-    public ResponseEntity<List<News>> getnews(@RequestParam(required = false) String title) throws JsonProcessingException, ParseException {
+    public ResponseEntity<List<News>> getnews(@RequestParam(required = false) String search) throws JsonProcessingException, ParseException {
 //
-        List<News> newsList = newsService.getNews(title);
+        List<News> newsList = newsService.getNews(search);
         return ResponseEntity.status(HttpStatus.OK).body(newsList);
 //
     }
