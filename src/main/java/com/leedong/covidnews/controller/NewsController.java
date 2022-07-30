@@ -3,10 +3,12 @@ package com.leedong.covidnews.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leedong.covidnews.model.News;
+import com.leedong.covidnews.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,17 +21,33 @@ public class NewsController {
     @Autowired(required = false)
     private ObjectMapper objectMapper;
 
-//    @Autowired
-//    private NewsService newsService;
+    @Autowired(required = false)
+    private NewsService newsService;
 
 
     @GetMapping("/news")
     @Validated
     public  ResponseEntity<String> getAllNews() throws JsonProcessingException, ParseException {
-        //List<News>
+
+//        List<News> newsList = newsService.getNewsList(response);
+
+        return requestNews();
+//        newsList
+    }
+
+    @PutMapping("/savenews")
+    public String savenews() throws ParseException, JsonProcessingException {
+        newsService.saveNews(requestNews());
+        return "saved";
+    }
+
+
+
+
+    private ResponseEntity<String> requestNews() {
         String url = "https://www.hpa.gov.tw/wf/newsapi.ashx?fbclid=IwAR11w4I_brMYrgl7iAummGlQV8hKxvdf3NWmUWlp0Cadyy2DHAnPaST6DxM";
 
-        RestTemplate restTemplate =new RestTemplate();
+        RestTemplate restTemplate = new RestTemplate();
 
         //使用方法和header
         HttpHeaders headers = new HttpHeaders();
@@ -41,20 +59,13 @@ public class NewsController {
         //keyword：標題關鍵字
         //startdate：發布日期起始時間
         //enddate：發布日期結束時間
-//        url +="&startdate=2022/06/20";
-
-
+        url +="&startdate=2022/06/20";
         ResponseEntity<String> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 httpEntity,
                 String.class
         );
-//        List<News> newsList = newsService.getNewsList(response);
-//
-//        newsService.createNews(response);
-
         return response;
-//        newsList
     }
 }
