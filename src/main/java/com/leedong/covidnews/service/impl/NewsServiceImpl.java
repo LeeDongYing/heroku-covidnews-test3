@@ -24,9 +24,6 @@ public class NewsServiceImpl implements NewsService {
     @Autowired
     private NewsDao newsDao;
 
-    @Autowired(required = false)
-    private ObjectMapper objectMapper;
-
     @Override
     public List<News> getNews(String title) throws JsonProcessingException, ParseException {
 

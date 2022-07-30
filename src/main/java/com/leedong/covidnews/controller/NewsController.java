@@ -18,9 +18,6 @@ import java.util.List;
 @RestController
 public class NewsController {
 
-    @Autowired(required = false)
-    private ObjectMapper objectMapper;
-
     @Autowired
     private NewsService newsService;
 
@@ -32,12 +29,11 @@ public class NewsController {
 
     @GetMapping("/news")
     @Validated
-    public ResponseEntity<List<News>> getNews(@RequestParam(required = false) String title) throws JsonProcessingException, ParseException {
-
+    public ResponseEntity<List<News>> getnews(@RequestParam(required = false) String title) throws JsonProcessingException, ParseException {
+//
         List<News> newsList = newsService.getNews(title);
-
-        return  ResponseEntity.status(HttpStatus.OK).body(newsList);
-
+        return ResponseEntity.status(HttpStatus.OK).body(newsList);
+//
     }
 
     @GetMapping("/savenews")
