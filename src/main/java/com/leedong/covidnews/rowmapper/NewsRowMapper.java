@@ -11,7 +11,13 @@ public class NewsRowMapper implements RowMapper<News> {
     public News mapRow(ResultSet rs, int rowNum) throws SQLException {
         News news = new News();
 
+        news.setTitle(rs.getString("title"));
+        news.setContent(rs.getString("content"));
         news.setConnectionUrl(rs.getString("connectUrl"));
+
+
+        news.setCreatedDate(rs.getTimestamp("created_date"));
+        news.setModifiedDate(rs.getTimestamp("modified_date"));
 
         return news;
     }

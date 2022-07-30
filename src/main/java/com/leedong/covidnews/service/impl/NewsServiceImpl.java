@@ -28,8 +28,9 @@ public class NewsServiceImpl implements NewsService {
     private ObjectMapper objectMapper;
 
     @Override
-    public List<News> getNewsList(ResponseEntity<String> response) throws JsonProcessingException, ParseException {
-        return transfer(response);
+    public List<News> getNews(String title) throws JsonProcessingException, ParseException {
+
+        return newsDao.getNews(title);
     }
 
     @Override

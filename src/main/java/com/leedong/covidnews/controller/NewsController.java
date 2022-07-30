@@ -2,15 +2,18 @@ package com.leedong.covidnews.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.leedong.covidnews.model.News;
 import com.leedong.covidnews.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.ParseException;
+import java.util.List;
 
 @RestController
 public class NewsController {
@@ -18,18 +21,23 @@ public class NewsController {
     @Autowired(required = false)
     private ObjectMapper objectMapper;
 
-    @Autowired(required = false)
+    @Autowired
     private NewsService newsService;
+
+    @GetMapping("/allnews")
+    public ResponseEntity<String> allnews(){
+        return requestNews();
+    }
 
 
     @GetMapping("/news")
     @Validated
-    public  ResponseEntity<String> getAllNews() throws JsonProcessingException, ParseException {
+    public ResponseEntity<List<News>> getNews(@RequestParam(required = false) String title) throws JsonProcessingException, ParseException {
 
-//        List<News> newsList = newsService.getNewsList(response);
+        List<News> newsList = newsService.getNews(title);
 
-        return requestNews();
-//        newsList
+        return  ResponseEntity.status(HttpStatus.OK).body(newsList);
+
     }
 
     @GetMapping("/savenews")
@@ -38,9 +46,6 @@ public class NewsController {
         newsService.saveNews(response);
         return "saved";
     }
-
-
-
 
     private ResponseEntity<String> requestNews() {
         String url = "https://www.hpa.gov.tw/wf/newsapi.ashx?fbclid=IwAR11w4I_brMYrgl7iAummGlQV8hKxvdf3NWmUWlp0Cadyy2DHAnPaST6DxM";
@@ -58,6 +63,7 @@ public class NewsController {
         //startdate：發布日期起始時間
         //enddate：發布日期結束時間
         url +="&startdate=2022/06/20";
+
         ResponseEntity<String> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,

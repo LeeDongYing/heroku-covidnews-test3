@@ -57,7 +57,7 @@ public class NewsDaoImpl implements NewsDao {
 
     @Override
     public boolean getNewsByUrl(News news) {
-        String sql = "SELECT connectUrl FROM news WHERE connectUrl = :connectionUrl";
+        String sql = "SELECT title,content,connectUrl,created_date,modified_date FROM news WHERE connectUrl = :connectionUrl";
 
         Map<String,Object> map = new HashMap<>();
         map.put("connectionUrl",news.getConnectionUrl());
@@ -70,4 +70,20 @@ public class NewsDaoImpl implements NewsDao {
         }
     }
 
+    @Override
+    public List<News> getNews(String title) {
+        String sql = "SELECT title,content,connectUrl,created_date,modified_date \n" +
+                "FROM news WHERE 1=1 AND title LIKE :title";
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("title","%" + title + "%");
+
+        List<News> newsList = namedParameterJdbcTemplate.query(sql,map,new NewsRowMapper());
+
+        if (newsList.size()>0){
+            return newsList;
+        }else {
+            return null;
+        }
+    }
 }

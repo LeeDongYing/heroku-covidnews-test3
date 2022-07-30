@@ -10,5 +10,5 @@ import java.util.List;
 public interface NewsService {
     void saveNews(ResponseEntity<String> response) throws JsonProcessingException, ParseException;
 
-    List<News> getNewsList(ResponseEntity<String> response) throws JsonProcessingException, ParseException;
+    List<News> getNews(String title) throws JsonProcessingException, ParseException;
 }
