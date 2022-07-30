@@ -41,7 +41,7 @@ public class NewsController {
         //keyword：標題關鍵字
         //startdate：發布日期起始時間
         //enddate：發布日期結束時間
-        url +="&startdate=2022/07/01";
+        url +="&startdate=2022/06/20";
 
 
         ResponseEntity<String> response = restTemplate.exchange(
