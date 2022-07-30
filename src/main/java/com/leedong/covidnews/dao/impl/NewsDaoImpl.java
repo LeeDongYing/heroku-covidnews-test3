@@ -7,11 +7,13 @@ import com.leedong.covidnews.rowmapper.NewsRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class NewsDaoImpl implements NewsDao {
 
     @Autowired(required = false)

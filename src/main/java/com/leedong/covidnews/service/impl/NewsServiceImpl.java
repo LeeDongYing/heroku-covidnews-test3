@@ -10,7 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.stereotype.Component;
 
 
 import java.text.ParseException;
@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Component
 public class NewsServiceImpl implements NewsService {
     @Autowired
     private NewsDao newsDao;
@@ -43,7 +44,7 @@ public class NewsServiceImpl implements NewsService {
                 continue;
             }
         }
-        newsDao.createNews(nList);
+        newsDao.saveNews(nList);
     }
 
 

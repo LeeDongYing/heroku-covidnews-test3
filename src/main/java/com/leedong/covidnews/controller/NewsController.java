@@ -2,18 +2,15 @@ package com.leedong.covidnews.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.leedong.covidnews.model.News;
 import com.leedong.covidnews.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.ParseException;
-import java.util.List;
 
 @RestController
 public class NewsController {
@@ -35,9 +32,10 @@ public class NewsController {
 //        newsList
     }
 
-    @PutMapping("/savenews")
+    @GetMapping("/savenews")
     public String savenews() throws ParseException, JsonProcessingException {
-        newsService.saveNews(requestNews());
+        ResponseEntity<String> response = requestNews();
+        newsService.saveNews(response);
         return "saved";
     }
 
