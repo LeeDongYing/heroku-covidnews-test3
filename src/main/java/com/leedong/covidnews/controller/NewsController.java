@@ -21,13 +21,13 @@ public class NewsController {
     @Autowired
     private NewsService newsService;
 
-    @GetMapping("/allnews")
+//    @GetMapping("/allnews")
     public ResponseEntity<String> allnews(){
         return requestNews();
     }
 
 
-    @GetMapping("/news")
+//    @GetMapping("/news")
     @Validated
     public ResponseEntity<List<News>> getnews(@RequestParam(required = false) String search) throws JsonProcessingException, ParseException {
 //
@@ -36,7 +36,7 @@ public class NewsController {
 //
     }
 
-    @GetMapping("/savenews")
+   // @GetMapping("/savenews")
     public String savenews() throws ParseException, JsonProcessingException {
         ResponseEntity<String> response = requestNews();
         newsService.saveNews(response);
@@ -44,7 +44,7 @@ public class NewsController {
     }
 
     private ResponseEntity<String> requestNews() {
-        String url = "https://www.hpa.gov.tw/wf/newsapi.ashx?fbclid=IwAR11w4I_brMYrgl7iAummGlQV8hKxvdf3NWmUWlp0Cadyy2DHAnPaST6DxM";
+        String url = "https://www.hpa.gov.tw/wf/newsapi.ashx";
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -58,7 +58,7 @@ public class NewsController {
         //keyword：標題關鍵字
         //startdate：發布日期起始時間
         //enddate：發布日期結束時間
-        url +="&startdate=2022/06/20";
+        url +="?startdate=2022/06/20";
 
         ResponseEntity<String> response = restTemplate.exchange(
                 url,

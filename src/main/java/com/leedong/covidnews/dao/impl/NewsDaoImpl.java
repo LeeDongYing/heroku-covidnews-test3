@@ -99,6 +99,7 @@ public class NewsDaoImpl implements NewsDao {
         Map<String,Object> map = new HashMap<>();
         map.put("connecturl",connectionUrl);
 
+
         List<Data> dataList = namedParameterJdbcTemplate.query(sql,map,new DataRowMapper());
         if(dataList != null)
             return dataList;

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8"/>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+  <style>
+    img{
+      width:400px;height:300px
+    }
+
+  </style>
+  <title>News</title>
+</head>
+<body class="container-fluid">
+  <div class="container-fluid text-sm-center">
+    <h1>News</h1>
+  </div>
+  <div >
+    <table  class="table table-bordered " style="table-layout: auto;" >
+      <thead class="thead-dark">
+        <tr>
+          <th>標題</th>
+          <th>內文</th>
+          <th>連結網址</th>
+          <th>附加檔案</th>
+          <th>發表日期</th>
+          <th>修改日期</th>
+          <th>功能</th>
+        </tr>
+      </thead>
+      <tbody>
+      <th:block th:each="news : ${newsList}">
+        <tr>
+          <td th:text="${news.title}"></td>
+          <td th:utext="${news.content}"></td>
+          <td th:text="${news.connectionUrl}"></td>
+          <td th:if="${news.dataList}">
+            <ul th:each="data : ${news.dataList}">
+              <li th:text="${data.explanation}"></li>
+              <li th:text="${data.name}"></li>
+              <li th:text="${data.connection}"></li>
+            </ul>
+          </td>
+          <td th:text="${news.createdDate}"></td>
+          <td th:text="${news.modifiedDate}"></td>
+          <td>
+            <a class="h4 mr-3" th:href="@{'/news/delete' + ${news.connectionUrl}}" >DELETE</a>
+          </td>
+        </tr>
+      </th:block>
+
+
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
