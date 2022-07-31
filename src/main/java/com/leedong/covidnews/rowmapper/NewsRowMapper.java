@@ -16,6 +16,7 @@ public class NewsRowMapper implements RowMapper<News> {
         news.setConnectionUrl(rs.getString("connectUrl"));
 
 
+
         news.setCreatedDate(rs.getTimestamp("created_date"));
         news.setModifiedDate(rs.getTimestamp("modified_date"));
 

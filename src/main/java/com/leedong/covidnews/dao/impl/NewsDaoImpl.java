@@ -3,6 +3,7 @@ package com.leedong.covidnews.dao.impl;
 import com.leedong.covidnews.dao.NewsDao;
 import com.leedong.covidnews.model.Data;
 import com.leedong.covidnews.model.News;
+import com.leedong.covidnews.rowmapper.DataRowMapper;
 import com.leedong.covidnews.rowmapper.NewsRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -72,24 +73,36 @@ public class NewsDaoImpl implements NewsDao {
 
     @Override
     public List<News> getNews(String search) {
-        String sql = "SELECT title,content,connectUrl,created_date,modified_date \n" +
-                "FROM news WHERE 1=1";
+        String sql = "SELECT title,content,connectUrl,created_date,modified_date FROM news WHERE 1=1";
 
         Map<String,Object> map = new HashMap<>();
 
         if(search != null){
             sql += " AND title LIKE :search OR content LIKE :search";
-            map.put("title","%" + search + "%");
-            map.put("content","%" + search + "%");
+            map.put("search","%" + search + "%");
+
         }
-
-
         List<News> newsList = namedParameterJdbcTemplate.query(sql,map,new NewsRowMapper());
+
 
         if (newsList.size()>0){
             return newsList;
         }else {
             return null;
         }
+    }
+
+    @Override
+    public List<Data> getDataByUrl(String connectionUrl) {
+        String sql = "SELECT explanation,name,connection FROM data WHERE connectionUrl = :connecturl";
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("connecturl",connectionUrl);
+
+        List<Data> dataList = namedParameterJdbcTemplate.query(sql,map,new DataRowMapper());
+        if(dataList != null)
+            return dataList;
+        else
+            return null;
     }
 }

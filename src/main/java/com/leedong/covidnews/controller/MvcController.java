@@ -24,6 +24,7 @@ public class MvcController {
     public String news(Model model ,@RequestParam(required = false) String title) throws ParseException, JsonProcessingException {
         List<News> newsList = newsService.getNews(title);
         model.addAttribute("newsList",newsList);
+
         return "index";
     }
 

@@ -3,41 +3,63 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
     <title>News</title>
 </head>
 <body>
-<div align="center">
-    <h1>News List</h1>
-    <br/><br/>
-    <table border="1" cellpadding="10">
-        <thead>
-        <tr>
-            <th>title</th>
-            <th>content</th>
-            <th>connectionUrl</th>
-            <th>datalist</th>
-            <th>createdDate</th>
-            <th>modifiedDate</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="news : ${newsList}">
-            <td th:text="${news.title}">Product ID</td>
-            <td th:text="${news.content}">Name</td>
-            <td th:text="${news.connectionUrl}">Brand</td>
-
-            <td th:each="data : ${news.dataList}">
-                th:text="${data.explanation}"<br>
-                th:text="${data.name}"<br>
-                th:text="${data.connection}"<br>
-            </td>
-
-            <td th:text="${news.createdDate}">Made in</td>
-            <td th:text="${news.modifiedDate}">Price</td>
-
-        </tr>
-        </tbody>
-    </table>
+<div class="container-fluid text-sm-center">
+    <h1>Welcome to my application</h1>
+    <a class="h2" th:href="@{/news}"> show news</a>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div align="center">-->
+<!--    <h1 >News List</h1>-->
+<!--    <br/><br/>-->
+<!--    <table border="1" cellpadding="10">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>title</th>-->
+<!--            <th>content</th>-->
+<!--            <th>connectionUrl</th>-->
+<!--            <th>datalist</th>-->
+<!--            <th>createdDate</th>-->
+<!--            <th>modifiedDate</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each="news : ${newsList}">-->
+<!--            <td th:text="${news.title}">Product ID</td>-->
+<!--            <td th:text="${news.content}">Name</td>-->
+<!--            <td th:text="${news.connectionUrl}">Brand<td/>-->
+<!--            <td th:each="data : ${news.dataList}">-->
+<!--                <p th:text="${data.explanation}"> </p>-->
+<!--                <p th:text="${data.name}"></p>-->
+<!--                <p th:text="${data.connection}"></p>-->
+<!--            </td>-->
+<!--&lt;!&ndash;            <td th:text="${news.dataList}"></td>&ndash;&gt;-->
+<!--            <td th:text="${news.createdDate}">Made in</td>-->
+<!--            <td th:text="${news.modifiedDate}">Price</td>-->
+
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--</div>-->
 </body>
 </html>
