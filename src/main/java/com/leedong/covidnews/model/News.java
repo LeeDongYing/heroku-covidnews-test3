@@ -11,6 +11,16 @@ public class News {
     private Date createdDate;
     private Date modifiedDate;
 
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public List<Data> getDataList() {
         return dataList;
     }

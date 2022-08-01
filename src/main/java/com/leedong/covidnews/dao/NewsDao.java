@@ -14,5 +14,5 @@ public interface NewsDao {
 
     List<Data> getDataByUrl(String connectionUrl);
 
-    void deleteByUrl(String title);
+    void deleteByTitle(String title);
 }

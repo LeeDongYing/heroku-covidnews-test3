@@ -27,9 +27,13 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public List<News> getNews(String search) throws JsonProcessingException, ParseException {
         List<News> newsList =newsDao.getNews(search);
+
         for (News news : newsList) {
-            List<Data> dataList = newsDao.getDataByUrl(news.getConnectionUrl());
-            news.setDataList(dataList);
+            if (news.getStatus().equals("1")){
+                List<Data> dataList = newsDao.getDataByUrl(news.getConnectionUrl());
+                news.setDataList(dataList);
+            }else
+                continue;
         }
         return newsList;
     }
@@ -49,9 +53,11 @@ public class NewsServiceImpl implements NewsService {
         newsDao.saveNews(nList);
     }
 
+
+
     @Override
-    public void deleteByUrl(String title) {
-        newsDao.deleteByUrl(title);
+    public void deleteByTitle(String title) {
+        newsDao.deleteByTitle(title);
     }
 
     private List<News> transfer(ResponseEntity<String> response) throws JsonProcessingException, ParseException {

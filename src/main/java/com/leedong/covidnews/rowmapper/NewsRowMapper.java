@@ -19,6 +19,7 @@ public class NewsRowMapper implements RowMapper<News> {
 
         news.setCreatedDate(rs.getTimestamp("created_date"));
         news.setModifiedDate(rs.getTimestamp("modified_date"));
+        news.setStatus(rs.getString("status"));
 
         return news;
     }

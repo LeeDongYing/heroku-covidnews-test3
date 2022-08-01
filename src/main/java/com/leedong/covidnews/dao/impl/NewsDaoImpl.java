@@ -23,8 +23,8 @@ public class NewsDaoImpl implements NewsDao {
 
     @Override
     public void saveNews(List<News> newsList) {
-        String sql = "INSERT INTO news (title, content, connectUrl, created_date, modified_date)\n" +
-                "VALUES (:title , :content ,:connectUrl  ,:createdDate ,:modifiedDate)";
+        String sql = "INSERT INTO news (title, content, connectUrl, created_date, modified_date,status)\n" +
+                "VALUES (:title , :content ,:connectUrl  ,:createdDate ,:modifiedDate,:status)";
 
         String sqlDataList = "INSERT INTO data (explanation, name, connection, connectionUrl) \n" +
                 "VALUES (:explanation ,:name , :connection ,:connectionUrl)";
@@ -42,6 +42,7 @@ public class NewsDaoImpl implements NewsDao {
                 map.put("connection", data.getConnection());
                 map.put("connectionUrl", news.getConnectionUrl());
 
+
                 namedParameterJdbcTemplate.update(sqlDataList,map);
             }
 
@@ -51,7 +52,7 @@ public class NewsDaoImpl implements NewsDao {
             mapSqlParameterSources[i].addValue("connectUrl",news.getConnectionUrl());
             mapSqlParameterSources[i].addValue("createdDate",news.getCreatedDate());
             mapSqlParameterSources[i].addValue("modifiedDate",news.getModifiedDate());
-
+            mapSqlParameterSources[i].addValue("status","1");
         }
         namedParameterJdbcTemplate.batchUpdate(sql,mapSqlParameterSources);
     }
@@ -73,7 +74,7 @@ public class NewsDaoImpl implements NewsDao {
 
     @Override
     public List<News> getNews(String search) {
-        String sql = "SELECT title,content,connectUrl,created_date,modified_date FROM news WHERE 1=1";
+        String sql = "SELECT title,content,connectUrl,created_date,modified_date,status FROM news WHERE 1=1";
 
         Map<String,Object> map = new HashMap<>();
 
@@ -82,6 +83,7 @@ public class NewsDaoImpl implements NewsDao {
             map.put("search","%" + search + "%");
 
         }
+
         List<News> newsList = namedParameterJdbcTemplate.query(sql,map,new NewsRowMapper());
 
 
@@ -108,8 +110,8 @@ public class NewsDaoImpl implements NewsDao {
     }
 
     @Override
-    public void deleteByUrl(String title){
-        String sql ="DELETE FROM news WHERE title=:title";
+    public void deleteByTitle(String title){
+        String sql ="UPDATE news SET status = 0 WHERE title = :title;";
 
         Map<String,Object> map = new HashMap<>();
         map.put("title",title);
