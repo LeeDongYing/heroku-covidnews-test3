@@ -29,7 +29,7 @@ public class NewsMvcController {
     @GetMapping("/news/delete/{title}")
     public String deleteNews(@PathVariable("title") String title){
         newsService.deleteByUrl(title);
-        return "index";
+        return "success";
     }
 
 
