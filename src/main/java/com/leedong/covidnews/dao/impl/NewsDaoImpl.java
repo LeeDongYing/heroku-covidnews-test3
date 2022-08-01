@@ -106,4 +106,15 @@ public class NewsDaoImpl implements NewsDao {
         else
             return null;
     }
+
+    @Override
+    public void deleteByUrl(String title){
+        String sql ="DELETE FROM news WHERE title=:title";
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("title",title);
+
+        namedParameterJdbcTemplate.update(sql,map);
+
+    }
 }

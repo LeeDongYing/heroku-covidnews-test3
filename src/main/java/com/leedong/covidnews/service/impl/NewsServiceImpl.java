@@ -49,7 +49,10 @@ public class NewsServiceImpl implements NewsService {
         newsDao.saveNews(nList);
     }
 
-
+    @Override
+    public void deleteByUrl(String title) {
+        newsDao.deleteByUrl(title);
+    }
 
     private List<News> transfer(ResponseEntity<String> response) throws JsonProcessingException, ParseException {
         String result = response.getBody().toString();

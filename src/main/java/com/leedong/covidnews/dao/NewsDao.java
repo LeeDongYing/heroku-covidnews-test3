@@ -13,4 +13,6 @@ public interface NewsDao {
     List<News> getNews(String search);
 
     List<Data> getDataByUrl(String connectionUrl);
+
+    void deleteByUrl(String title);
 }

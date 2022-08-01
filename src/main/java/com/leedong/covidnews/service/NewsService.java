@@ -11,4 +11,6 @@ public interface NewsService {
     void saveNews(ResponseEntity<String> response) throws JsonProcessingException, ParseException;
 
     List<News> getNews(String search) throws JsonProcessingException, ParseException;
+
+    void deleteByUrl(String title);
 }
