@@ -27,15 +27,23 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public List<News> getNews(String search) throws JsonProcessingException, ParseException {
         List<News> newsList =newsDao.getNews(search);
-
-        for (News news : newsList) {
-            if (news.getStatus().equals("1")){
-                List<Data> dataList = newsDao.getDataByUrl(news.getConnectionUrl());
-                news.setDataList(dataList);
+        List<News> nList = new ArrayList<>();
+        for(News news : newsList){
+            if(news.getStatus().equals("1")){
+                nList.add(news);
             }else
                 continue;
         }
-        return newsList;
+        for (News news : nList) {
+                List<Data> dataList = newsDao.getDataByUrl(news.getConnectionUrl());
+                news.setDataList(dataList);
+            }
+        return nList;
+    }
+
+    @Override
+    public News getNewsById(Integer newsId) {
+        return newsDao.getNewsById(newsId);
     }
 
     @Override
@@ -44,20 +52,29 @@ public class NewsServiceImpl implements NewsService {
         List<News> nList = new ArrayList<>();
         for (int i = 0;i<newsList.size();i++){
             News news = newsList.get(i);
-            if (newsDao.getNewsByUrl(news) != true){
+            if (newsDao.getNewsByUrl(news) != true) {
                 nList.add(newsList.get(i));
             }else{
                 continue;
             }
         }
-        newsDao.saveNews(nList);
+        if(nList != null){
+            newsDao.saveNews(nList);
+        } else {
+            return;
+        }
+
     }
 
-
+    @Override
+    public void editNews(News news) {
+        newsDao.editNews(news);
+    }
 
     @Override
-    public void deleteByTitle(String title) {
-        newsDao.deleteByTitle(title);
+    public void deleteByTitle(Integer newsId) {
+
+        newsDao.deleteByTitle(newsId);
     }
 
     private List<News> transfer(ResponseEntity<String> response) throws JsonProcessingException, ParseException {

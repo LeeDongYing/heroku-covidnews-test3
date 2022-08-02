@@ -1,17 +1,32 @@
 package com.leedong.covidnews.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 import java.util.List;
 
 public class News {
+
+    private Integer newsId;
+
     private String title;
     private String content;
     private String connectionUrl;
     private List<Data> dataList;
+
     private Date createdDate;
+
     private Date modifiedDate;
 
     private String status;
+
+    public Integer getNewsId() {
+        return newsId;
+    }
+
+    public void setNewsId(Integer newsId) {
+        this.newsId = newsId;
+    }
 
     public String getStatus() {
         return status;

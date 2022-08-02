@@ -32,25 +32,33 @@
       <tbody>
       <th:block th:each="news : ${newsList}">
         <tr>
-          <td th:text="${news.title}"></td>
-          <td th:utext="${news.content}"></td>
-          <td th:text="${news.connectionUrl}"></td>
-          <td th:if="${news.dataList}">
-            <ul  th:each="data : ${news.dataList}">
-              <li th:text="${data.explanation}"></li>
-              <li th:text="${data.name}"></li>
-              <li th:text="${data.connection}"></li>
+<!--          <td th:text="${news.title}"></td>-->
+          <td class="col-1">[[${news.title}]]</td>
+          <td class="col-6" th:utext="${news.content}"></td>
+<!--          <td th:text="${news.connectionUrl}"></td>-->
+          <td class="col-1">[[${news.connectionUrl}]]</td>
+
+
+          <td class="col-1" th:if="${news.dataList}">
+            <ul class="list-unstyled mb-4" th:each="data : ${news.dataList}">
+<!--              <li th:text="${data.explanation}"></li>-->
+<!--              <li th:text="${data.name}"></li>-->
+<!--              <li th:text="${data.connection}"></li>-->
+              <li class="mb-1">[[${data.explanation}]]</li>
+              <li class="mb-1">[[${data.name}]]</li>
+              <li class="mb-1">[[${data.connection}]]</li>
             </ul>
           </td>
-          <td class="text-wrap" style="width:0.5rem" th:text="${news.createdDate}"></td>
-          <td class="text-wrap" style="width:0.5rem" th:text="${news.modifiedDate}"></td>
-          <td>
-            <a class="h4" th:href="@{'/news/delete/' + ${news.title}}">DELETE</a>
+<!--          <td  th:text="${news.createdDate}"></td>-->
+<!--          <td  th:text="${news.modifiedDate}"></td>-->
+          <td class="col-1">[[${news.createdDate}]]</td>
+          <td class="col-1">[[${news.modifiedDate}]]</td>
+          <td class="col-1">
+            <a class="h3 mr-3 text-center" th:href="@{'/news/edit/' + ${news.newsId}}">EDIT</a>
+            <a class="h3 mr-3 text-center" th:href="@{'/news/delete/' + ${news.newsId}}">DELETE</a>
           </td>
         </tr>
       </th:block>
-
-
       </tbody>
     </table>
   </div>

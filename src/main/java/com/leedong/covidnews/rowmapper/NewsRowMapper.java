@@ -10,7 +10,7 @@ public class NewsRowMapper implements RowMapper<News> {
     @Override
     public News mapRow(ResultSet rs, int rowNum) throws SQLException {
         News news = new News();
-
+        news.setNewsId(rs.getInt("newsId"));
         news.setTitle(rs.getString("title"));
         news.setContent(rs.getString("content"));
         news.setConnectionUrl(rs.getString("connectUrl"));

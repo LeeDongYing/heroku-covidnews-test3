@@ -58,8 +58,37 @@ public class NewsDaoImpl implements NewsDao {
     }
 
     @Override
+    public News getNewsById(Integer newsId) {
+        String sql = "SELECT newsId,title,content,connectUrl,created_date,modified_date,status \n" +
+                "FROM news WHERE newsId =:newsId;";
+
+        Map<String,Object> map =new HashMap<>();
+        map.put("newsId",newsId);
+
+        List<News> newsList = namedParameterJdbcTemplate.query(sql,map,new NewsRowMapper());
+
+        if (newsList.size()>0){
+            return newsList.get(0);
+        }else {
+            return null;
+        }
+    }
+
+    @Override
+    public void editNews(News news) {
+        String sql = "UPDATE news SET title = :title ,content = :content WHERE newsId = :newsId;";
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("newsId",news.getNewsId());
+        map.put("title",news.getTitle());
+        map.put("content",news.getContent());
+
+        namedParameterJdbcTemplate.update(sql,map);
+    }
+
+    @Override
     public boolean getNewsByUrl(News news) {
-        String sql = "SELECT title,content,connectUrl,created_date,modified_date FROM news WHERE connectUrl = :connectionUrl";
+        String sql = "SELECT title,content,connectUrl,created_date,modified_date,status FROM news WHERE connectUrl = :connectionUrl";
 
         Map<String,Object> map = new HashMap<>();
         map.put("connectionUrl",news.getConnectionUrl());
@@ -74,18 +103,18 @@ public class NewsDaoImpl implements NewsDao {
 
     @Override
     public List<News> getNews(String search) {
-        String sql = "SELECT title,content,connectUrl,created_date,modified_date,status FROM news WHERE 1=1";
+        String sql = "SELECT newsId,title,content,connectUrl,created_date,modified_date,status FROM news WHERE 1=1";
 
         Map<String,Object> map = new HashMap<>();
 
         if(search != null){
             sql += " AND title LIKE :search OR content LIKE :search";
             map.put("search","%" + search + "%");
-
         }
+        //排序
+        sql = sql + " ORDER BY created_date desc";
 
         List<News> newsList = namedParameterJdbcTemplate.query(sql,map,new NewsRowMapper());
-
 
         if (newsList.size()>0){
             return newsList;
@@ -101,7 +130,6 @@ public class NewsDaoImpl implements NewsDao {
         Map<String,Object> map = new HashMap<>();
         map.put("connecturl",connectionUrl);
 
-
         List<Data> dataList = namedParameterJdbcTemplate.query(sql,map,new DataRowMapper());
         if(dataList != null)
             return dataList;
@@ -110,13 +138,13 @@ public class NewsDaoImpl implements NewsDao {
     }
 
     @Override
-    public void deleteByTitle(String title){
-        String sql ="UPDATE news SET status = 0 WHERE title = :title;";
+    public void deleteByTitle(Integer newsId){
+        String sql ="UPDATE news SET status = '0' WHERE newsId = :newsId;";
 
         Map<String,Object> map = new HashMap<>();
-        map.put("title",title);
+        map.put("newsId",newsId);
 
-        namedParameterJdbcTemplate.update(sql,map);
+        namedParameterJdbcTemplate.update(sql, map);
 
     }
 }

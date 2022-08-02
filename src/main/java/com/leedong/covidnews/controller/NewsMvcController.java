@@ -7,11 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.ParseException;
 import java.util.List;
@@ -29,18 +28,40 @@ public class NewsMvcController {
         return "news";
     }
 
-    @GetMapping("/updatelatestnews")
-    public String updateLatestNews() throws ParseException, JsonProcessingException {
-        newsService.saveNews(requestNews());
+    @GetMapping("/news/edit/{newsId}")
+    public String EditNewsPage(@PathVariable("newsId") Integer newsId,Model model,RedirectAttributes ra){
+        News news = newsService.getNewsById(newsId);
+        model.addAttribute("news",news);
 
+
+        return "edit_news";
+    }
+
+    @PostMapping("/news/save")
+    public String saveNews(News news){
+        System.out.println(news.getNewsId());
+
+        newsService.editNews(news);
         return "index";
     }
 
 
+    @GetMapping("/updatelatestnews")
+    public String updateLatestNews(RedirectAttributes ra) throws ParseException, JsonProcessingException {
+        try {
+            newsService.saveNews(requestNews());
+            ra.addFlashAttribute("message","It's latest news");
+            return "index";
+        }catch (Exception e){
+            ra.addFlashAttribute("message","It's latest news");
+            return "index";
+        }
+    }
 
-    @GetMapping("/news/delete/{title}")
-    public String deleteNews(@PathVariable("title") String title){
-        newsService.deleteByTitle(title);
+
+    @GetMapping("/news/delete/{newsId}")
+    public String deleteNews(@PathVariable("newsId") Integer newsId){
+        newsService.deleteByTitle(newsId);
         return "success";
     }
 
