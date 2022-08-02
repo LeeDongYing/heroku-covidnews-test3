@@ -74,7 +74,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public void deleteById(Integer newsId) {
 
-        newsDao.deleteByTitle(newsId);
+        newsDao.deleteById(newsId);
     }
 
     private List<News> transfer(ResponseEntity<String> response) throws JsonProcessingException, ParseException {
