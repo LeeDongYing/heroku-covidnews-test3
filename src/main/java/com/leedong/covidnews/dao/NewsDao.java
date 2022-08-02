@@ -16,7 +16,7 @@ public interface NewsDao {
 
     News getNewsById(Integer newsId);
 
-    void deleteByTitle(Integer newsId);
+    void deleteById(Integer newsId);
 
     void editNews(News news);
 }

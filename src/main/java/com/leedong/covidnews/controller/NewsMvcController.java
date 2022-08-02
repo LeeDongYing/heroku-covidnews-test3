@@ -21,7 +21,12 @@ public class NewsMvcController {
     @Autowired
     private NewsService newsService;
 
-    @GetMapping("/index")
+//    @GetMapping("/index.html")
+//    public String indexPage(){
+//        return "index";
+//    }
+
+    @GetMapping(value ={ "/" , "/index","/index.html"})
     public String showNews(Model model,@RequestParam(required = false) String search) throws ParseException, JsonProcessingException {
         List<News> newsList = newsService.getNews(search);
         model.addAttribute("newsList",newsList);
@@ -39,30 +44,33 @@ public class NewsMvcController {
 
     @PostMapping("/news/save")
     public String saveNews(News news){
-        System.out.println(news.getNewsId());
 
+        System.out.println(news.getNewsId());
         newsService.editNews(news);
-        return "index";
+
+        return "redirect:/index.html";
     }
 
 
     @GetMapping("/updatelatestnews")
     public String updateLatestNews(RedirectAttributes ra) throws ParseException, JsonProcessingException {
-        try {
-            newsService.saveNews(requestNews());
-            ra.addFlashAttribute("message","It's latest news");
-            return "index";
-        }catch (Exception e){
-            ra.addFlashAttribute("message","It's latest news");
-            return "index";
-        }
+//        try {
+//            newsService.saveNews(requestNews());
+//            ra.addFlashAttribute("message","It's latest news");
+//            return "redirect:/index.html";
+//        }catch (Exception e){
+//            ra.addFlashAttribute("message","It's latest news");
+//            return "index";
+//        }
+        newsService.saveNews(requestNews());
+        return "redirect:/index.html";
     }
 
 
     @GetMapping("/news/delete/{newsId}")
     public String deleteNews(@PathVariable("newsId") Integer newsId){
-        newsService.deleteByTitle(newsId);
-        return "success";
+        newsService.deleteById(newsId);
+        return "redirect:/index.html";
     }
 
 

@@ -12,7 +12,7 @@ public interface NewsService {
 
     List<News> getNews(String search) throws JsonProcessingException, ParseException;
 
-    void deleteByTitle(Integer newsId);
+    void deleteById(Integer newsId);
 
     News getNewsById(Integer newsId);
 

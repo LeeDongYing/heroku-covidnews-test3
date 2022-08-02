@@ -72,7 +72,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public void deleteByTitle(Integer newsId) {
+    public void deleteById(Integer newsId) {
 
         newsDao.deleteByTitle(newsId);
     }

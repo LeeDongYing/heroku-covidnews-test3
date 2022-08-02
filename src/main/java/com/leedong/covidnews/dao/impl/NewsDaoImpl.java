@@ -138,7 +138,7 @@ public class NewsDaoImpl implements NewsDao {
     }
 
     @Override
-    public void deleteByTitle(Integer newsId){
+    public void deleteById(Integer newsId){
         String sql ="UPDATE news SET status = '0' WHERE newsId = :newsId;";
 
         Map<String,Object> map = new HashMap<>();
