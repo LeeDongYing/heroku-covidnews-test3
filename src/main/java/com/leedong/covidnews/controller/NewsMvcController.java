@@ -21,11 +21,11 @@ public class NewsMvcController {
     @Autowired
     private NewsService newsService;
 
-    @GetMapping("/news")
+    @GetMapping("/index")
     public String showNews(Model model,@RequestParam(required = false) String search) throws ParseException, JsonProcessingException {
         List<News> newsList = newsService.getNews(search);
         model.addAttribute("newsList",newsList);
-        return "news";
+        return "index";
     }
 
     @GetMapping("/news/edit/{newsId}")
