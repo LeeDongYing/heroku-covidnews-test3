@@ -17,4 +17,6 @@ public interface NewsService {
     News getNewsById(Integer newsId);
 
     void editNews(News news);
+
+    void createNews(News news);
 }

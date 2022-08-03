@@ -1,6 +1,7 @@
 package com.leedong.covidnews.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.leedong.covidnews.model.Data;
 import com.leedong.covidnews.model.News;
 import com.leedong.covidnews.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -21,38 +23,48 @@ public class NewsMvcController {
     @Autowired
     private NewsService newsService;
 
-//    @GetMapping("/index.html")
-//    public String indexPage(){
-//        return "index";
-//    }
 
-    @GetMapping(value ={ "/" , "/index","/index.html"})
+    @GetMapping(value ={ "/", "/index","/index.html"})
     public String showNews(Model model,@RequestParam(required = false) String search) throws ParseException, JsonProcessingException {
+
         List<News> newsList = newsService.getNews(search);
-        model.addAttribute("newsList",newsList);
+        model.addAttribute("newsList", newsList);
+        model.addAttribute("boderStyle","border: 1px  black solid");
         return "index";
     }
 
     @GetMapping("/news/edit/{newsId}")
-    public String EditNewsPage(@PathVariable("newsId") Integer newsId,Model model,RedirectAttributes ra){
+    public String EditNewsPage(@PathVariable("newsId") Integer newsId,Model model){
         News news = newsService.getNewsById(newsId);
         model.addAttribute("news",news);
-
 
         return "edit_news";
     }
 
     @PostMapping("/news/save")
     public String saveNews(News news){
-
-        System.out.println(news.getNewsId());
         newsService.editNews(news);
 
         return "redirect:/index.html";
     }
 
+    @PostMapping("/news/create")
+    public String create(Model model, News news, Data data){
 
-    @GetMapping("/updatelatestnews")
+
+        model.addAttribute("news",new News());
+        model.addAttribute("data",new Data());
+
+        List<Data> dataList = new ArrayList<>();
+        dataList.add(data);
+
+        news.setDataList(dataList);
+        newsService.createNews(news);
+
+        return "redirect:/index.html";
+    }
+
+    @GetMapping("/updateLatestNews")
     public String updateLatestNews(RedirectAttributes ra) throws ParseException, JsonProcessingException {
 //        try {
 //            newsService.saveNews(requestNews());

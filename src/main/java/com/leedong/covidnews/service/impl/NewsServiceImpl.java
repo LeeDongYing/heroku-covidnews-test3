@@ -25,6 +25,11 @@ public class NewsServiceImpl implements NewsService {
     private NewsDao newsDao;
 
     @Override
+    public void createNews(News news) {
+        newsDao.createNews(news);
+    }
+
+    @Override
     public List<News> getNews(String search) throws JsonProcessingException, ParseException {
         List<News> newsList =newsDao.getNews(search);
         List<News> nList = new ArrayList<>();
@@ -53,7 +58,7 @@ public class NewsServiceImpl implements NewsService {
         for (int i = 0;i<newsList.size();i++){
             News news = newsList.get(i);
             if (newsDao.getNewsByUrl(news) != true) {
-                nList.add(newsList.get(i));
+                nList.add(news);
             }else{
                 continue;
             }

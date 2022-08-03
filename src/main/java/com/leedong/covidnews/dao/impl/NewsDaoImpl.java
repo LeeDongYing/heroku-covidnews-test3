@@ -8,8 +8,11 @@ import com.leedong.covidnews.rowmapper.NewsRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,8 +90,44 @@ public class NewsDaoImpl implements NewsDao {
     }
 
     @Override
+    public void createNews(News news) {
+        String sql = "INSERT INTO news (title, content, connectUrl, created_date, modified_date,status)\n" +
+                "VALUES (:title , :content ,:connectUrl  ,:createdDate ,:modifiedDate,:status)";
+
+        String sqlDataList = "INSERT INTO data (explanation, name, connection, connectionUrl) \n" +
+                "VALUES (:explanation ,:name , :connection ,:connectionUrl)";
+
+
+        Map<String,Object> mapNews = new HashMap<>();
+        mapNews.put("title",news.getTitle());
+        mapNews.put("content",news.getContent());
+        mapNews.put("connectUrl",news.getConnectionUrl());
+        Date now = new Date();
+        mapNews.put("createdDate",now);
+        mapNews.put("modifiedDate",now);
+        mapNews.put("status","1");
+
+        for(Data data : news.getDataList()){
+            if (data != null) {
+                Map<String, Object> mapData = new HashMap<>();
+                mapData.put("explanation", data.getExplanation());
+                mapData.put("name", data.getName());
+                mapData.put("connection", data.getConnection());
+                mapData.put("connectionUrl", news.getConnectionUrl());
+                namedParameterJdbcTemplate.update(sqlDataList, mapData);
+            }else
+                break;
+        }
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        namedParameterJdbcTemplate.update(sql,new MapSqlParameterSource(mapNews),keyHolder);
+
+    }
+
+    @Override
     public boolean getNewsByUrl(News news) {
-        String sql = "SELECT title,content,connectUrl,created_date,modified_date,status FROM news WHERE connectUrl = :connectionUrl";
+        String sql = "SELECT newsId,title,content,connectUrl,created_date,modified_date,status FROM news WHERE connectUrl = :connectionUrl";
 
         Map<String,Object> map = new HashMap<>();
         map.put("connectionUrl",news.getConnectionUrl());

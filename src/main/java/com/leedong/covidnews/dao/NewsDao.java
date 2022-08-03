@@ -19,4 +19,6 @@ public interface NewsDao {
     void deleteById(Integer newsId);
 
     void editNews(News news);
+
+    void createNews(News news);
 }
