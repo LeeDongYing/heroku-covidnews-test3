@@ -21,7 +21,7 @@
   <div class="container  text-center my-3">
       <form th:action="@{/index}" method="get" class="form-inline ">
           <div class="mx-auto">
-              <input class="form-control" name="search" type="text" placeholder="請輸入關鍵字" />
+              <input class="form-control" name="search" type="text" placeholder="請輸入關鍵字" th:value="${result}"/>
               <button type="submit" class="btn btn-primary  mx-2" >搜尋</button>
           </div>
       </form>

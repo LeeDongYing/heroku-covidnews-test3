@@ -29,7 +29,7 @@ public class NewsMvcController {
         model.addAttribute("boderStyle","border: 1px  black solid");
 
         model.addAttribute("search",new String());
-
+        model.addAttribute("result",search);
         List<News> newsList = newsService.getNews(search);
         model.addAttribute("newsList", newsList);
         return "index";
