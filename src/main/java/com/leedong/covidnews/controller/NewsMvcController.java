@@ -26,10 +26,12 @@ public class NewsMvcController {
 
     @GetMapping(value ={ "/", "/index","/index.html"})
     public String showNews(Model model,@RequestParam(required = false) String search) throws ParseException, JsonProcessingException {
+        model.addAttribute("boderStyle","border: 1px  black solid");
+
+        model.addAttribute("search",new String());
 
         List<News> newsList = newsService.getNews(search);
         model.addAttribute("newsList", newsList);
-        model.addAttribute("boderStyle","border: 1px  black solid");
         return "index";
     }
 

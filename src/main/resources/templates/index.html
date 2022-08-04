@@ -14,8 +14,17 @@
 </head>
 <body class="container-fluid " style="background-color: azure">
   <div class="container-fluid text-sm-center ">
-    <h1 class="m-3">News</h1>
+      <h1 class="m-3">News</h1>
       <a class="h6 my-3" th:href="@{/updateLatestNews}" >Update Latest News</a>
+  </div>
+
+  <div class="container  text-center my-3">
+      <form th:action="@{/index}" method="get" class="form-inline ">
+          <div class="mx-auto">
+              <input class="form-control" name="search" type="text" placeholder="請輸入關鍵字" />
+              <button type="submit" class="btn btn-primary  mx-2" >搜尋</button>
+          </div>
+      </form>
   </div>
 
   <div class="container-fluid  ">
@@ -52,7 +61,7 @@
               </div>
           </div>
           <div class="text-center">
-              <button type="submit" class="btn btn-primary mb-3 mx-2" value="add">Submit</button>
+              <button type="submit" class="btn btn-primary mb-3 mx-2" >Submit</button>
               <button type="button" class="btn btn-secondary mb-3 mx-2" onclick="cancelForm()">Cancel</button>
           </div>
       </form>
@@ -100,9 +109,9 @@
 <!-- [[${data.connection}]] -->
                     </ul>
                 </td>
-
-                <td class="col-1 text-center" th:style="${boderStyle}">[[${#dates.format(news.createdDate,'yyyy/MM/dd')}]]</td>
-                <td class="col-1 text-center" th:style="${boderStyle}">[[${#dates.format(news.modifiedDate,'yyyy/MM/dd')}]]</td>
+<!--${#dates.format(news.createdDate,'yyyy-MM-dd HH:mm:ss')} 時間轉換格式-->
+                <td class="col-1 text-center" th:style="${boderStyle}">[[${#dates.format(news.createdDate,'yyyy-MM-dd HH:mm:ss')}]]</td>
+                <td class="col-1 text-center" th:style="${boderStyle}">[[${#dates.format(news.modifiedDate,'yyyy-MM-dd HH:mm:ss')}]]</td>
 
                 <td class="col-1 text-center" th:style="${boderStyle}">
                     <a class="h3 mr-3 " th:href="@{'/news/edit/' + ${news.newsId}}">EDIT</a>
