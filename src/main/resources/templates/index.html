@@ -2,91 +2,90 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8"/>
-  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
-  <style>
-    img{
-      width:100%;height:100%
-    }
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <style>
+        img {
+            width: 100%;
+            height: 100%
+        }
 
-  </style>
-  <title>News</title>
+    </style>
+    <title>News</title>
 </head>
 <body class="container-fluid " style="background-color: azure">
-  <div class="container-fluid text-sm-center ">
-      <h1 class="m-3">News</h1>
-      <a class="h6 my-3" th:href="@{/updateLatestNews}" >Update Latest News</a>
-  </div>
-
-  <div class="container  text-center my-3">
-      <form th:action="@{/index}" method="get" class="form-inline ">
-          <div class="mx-auto">
-              <input class="form-control" name="search" type="text" placeholder="請輸入關鍵字" th:value="${result}"/>
-              <button type="submit" class="btn btn-primary  mx-2" >搜尋</button>
-          </div>
-      </form>
-  </div>
-
-  <div class="container-fluid  ">
-      <form class="row border m-1" th:action="@{/news/create}" method="post"  >
-          <div class="col-auto m-3 ">
-              <div class="form-group row ">
-                  <label class="form-label col-form-label-lg">標題</label>
-                  <input class="form-control " type="text" placeholder="請輸入標題"  name="title" required/>
-              </div>
-          </div>
-          <div class="col-auto m-3 ">
-              <div class="form-group ">
-                  <label class="form-label col-form-label-lg">內容</label>
-                  <textarea  class="form-control " name="content" placeholder="請輸入內容" required
-                             style="height: 150px;width: 800px ; word-break: normal ;word-wrap: normal" ></textarea>
-              </div>
-          </div>
-          <div class="col-auto m-3 ">
-             <div class="form-group ">
-                <label class="form-label col-form-label-lg">連結網址</label>
-                <input class="form-control " type="url" placeholder="請輸入網址"  name="connectionUrl" required/>
+<div class="container-fluid text-sm-center ">
+    <h1 class="m-3">News</h1>
+    <a class="h6 my-3" th:href="@{/updateLatestNews}">Update Latest News</a>
+</div>
+<!--關鍵字搜尋-->
+<div class="container  text-center my-3">
+    <form th:action="@{/index}" method="get" class="form-inline ">
+        <div class="mx-auto">
+            <input class="form-control" name="search" type="text" placeholder="請輸入關鍵字" th:value="${result}"/>
+            <button type="submit" class="btn btn-primary  mx-2" onclick="openSearchPage()" >搜尋</button>
+        </div>
+<!--       -->
+    </form>
+</div>
+<!--新增新聞-->
+<div class="container-fluid  ">
+    <form class="row border m-1" th:action="@{/news/create}" method="post">
+        <div class="col-auto m-3 ">
+            <div class="form-group row ">
+                <label class="form-label col-form-label-lg">標題</label>
+                <input class="form-control " type="text" placeholder="請輸入標題" name="title" required/>
             </div>
-          </div>
-          <div class="col-auto m-3 ">
-              <div class="form-group row ">
-                  <label class="form-label col-form-label-lg">附加檔案</label>
-                  <input class="form-control"  type="text" name="explanation" placeholder="請加入檔案說明">
-              </div>
-              <div class="form-group row ">
-                  <input class="form-control " type="text" placeholder="請輸入檔案名稱"  name="name" />
-              </div>
-              <div class="form-group row ">
-                  <input class="form-control " type="url" placeholder="請輸入檔案網址"  name="connection" />
-              </div>
-          </div>
-          <div class="text-center">
-              <button type="submit" class="btn btn-primary mb-3 mx-2" >Submit</button>
-              <button type="button" class="btn btn-secondary mb-3 mx-2" onclick="cancelForm()">Cancel</button>
-          </div>
-      </form>
-  </div>
-
-
-
-
-  <div class="container-fluid ">
-    <table  class="table table-bordered  "  >
-      <thead class="thead-dark text-center" th:style="${boderStyle}">
+        </div>
+        <div class="col-auto m-3 ">
+            <div class="form-group ">
+                <label class="form-label col-form-label-lg">內容</label>
+                <textarea class="form-control " name="content" placeholder="請輸入內容" required
+                          style="height: 150px;width: 800px ; word-break: normal ;word-wrap: normal"></textarea>
+            </div>
+        </div>
+        <div class="col-auto m-3 ">
+            <div class="form-group ">
+                <label class="form-label col-form-label-lg">連結網址</label>
+                <input class="form-control " type="url" placeholder="請輸入網址" name="connectionUrl" required/>
+            </div>
+        </div>
+        <div class="col-auto m-3 ">
+            <div class="form-group row ">
+                <label class="form-label col-form-label-lg">附加檔案</label>
+                <input class="form-control" type="text" name="explanation" placeholder="請加入檔案說明">
+            </div>
+            <div class="form-group row ">
+                <input class="form-control " type="text" placeholder="請輸入檔案名稱" name="name"/>
+            </div>
+            <div class="form-group row ">
+                <input class="form-control " type="url" placeholder="請輸入檔案網址" name="connection"/>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary mb-3 mx-2">Submit</button>
+            <button type="button" class="btn btn-secondary mb-3 mx-2" onclick="cancelForm()">Cancel</button>
+        </div>
+    </form>
+</div>
+<!--內容-->
+<div class="container-fluid ">
+    <table class="table table-bordered  ">
+        <thead class="thead-dark text-center" th:style="${boderStyle}">
         <tr>
-          <th>標題</th>
-          <th>內文</th>
-          <th>網址</th>
-          <th>附加檔案</th>
-          <th>發表日期</th>
-          <th>修改日期</th>
-          <th>功能</th>
+            <th>標題</th>
+            <th>內文</th>
+            <th>網址</th>
+            <th>附加檔案</th>
+            <th>發表日期</th>
+            <th>修改日期</th>
+            <th>功能</th>
         </tr>
-      </thead>
-        <tbody class="table-light" style="border: 1.5px  black solid">
+        </thead>
+        <tbody class="table-light" style="border: 1.5px  black solid" >
 
-        <th:block th:each="news : ${newsList}">
-            <tr >
+        <th:block  th:each="news : ${newsList}">
+            <tr>
 
                 <!--          <td th:text="${news.title}"></td>-->
                 <td class="col-1" th:style="${boderStyle}">[[${news.title}]]</td>
@@ -94,7 +93,7 @@
                 <td class="col-1 h5 text-center text-decoration-none" th:style="${boderStyle}">
                     <a th:href="@{${news.connectionUrl}}">連結網址</a>
                 </td>
-<!--[[${news.connectionUrl}]]-->
+                <!-- [[${news.connectionUrl}]]-->
 
                 <td class="col-1" th:if="${news.dataList}" th:style="${boderStyle}">
                     <ul class="list-unstyled mb-4" th:each="data : ${news.dataList}">
@@ -104,28 +103,39 @@
                         <li class="mb-1">[[${data.explanation}]]</li>
                         <li class="mb-1">[[${data.name}]]</li>
                         <li class="mb-1 text-decoration-none">
-                            <a th:href="@{${data.connection}}">檔案網址</a>
+                            <a th:href="@{${data.connection}}">[[${data.connection}]]</a>
                         </li>
-<!-- [[${data.connection}]] -->
+                        <!--  檔案網址-->
                     </ul>
                 </td>
-<!--${#dates.format(news.createdDate,'yyyy-MM-dd HH:mm:ss')} 時間轉換格式-->
-                <td class="col-1 text-center" th:style="${boderStyle}">[[${#dates.format(news.createdDate,'yyyy-MM-dd HH:mm:ss')}]]</td>
-                <td class="col-1 text-center" th:style="${boderStyle}">[[${#dates.format(news.modifiedDate,'yyyy-MM-dd HH:mm:ss')}]]</td>
+                <!--${#dates.format(news.createdDate,'yyyy-MM-dd HH:mm:ss')} 時間轉換格式-->
+                <td class="col-1 text-center" th:style="${boderStyle}">[[${#dates.format(news.createdDate,'yyyy-MM-dd
+                    HH:mm:ss')}]]
+                </td>
+                <td class="col-1 text-center" th:style="${boderStyle}">[[${#dates.format(news.modifiedDate,'yyyy-MM-dd
+                    HH:mm:ss')}]]
+                </td>
 
                 <td class="col-1 text-center" th:style="${boderStyle}">
                     <a class="h3 mr-3 " th:href="@{'/news/edit/' + ${news.newsId}}">EDIT</a>
                     <a class="h3 mr-3 " th:href="@{'/news/delete/' + ${news.newsId}}">DELETE</a>
                 </td>
             </tr>
-        </th:block>
+        </th:block >
 
-
-
-        </tbody>
     </table>
-  </div>
+</div>
 
+<script type="application/javascript">
+    function cancelForm(){
+        window.location = "[[@{/index.html}]]";
+    }
+    function openSearchPage(){
+
+        var url = '/index?search='+[[${search}]];
+        window.open(url,'_blank')
+    }
+</script>
 
 </body>
 </html>

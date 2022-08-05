@@ -33,17 +33,22 @@ public class NewsServiceImpl implements NewsService {
     public List<News> getNews(String search) throws JsonProcessingException, ParseException {
         List<News> newsList =newsDao.getNews(search);
         List<News> nList = new ArrayList<>();
-        for(News news : newsList){
-            if(news.getStatus().equals("1")){
-                nList.add(news);
-            }else
-                continue;
-        }
-        for (News news : nList) {
+        if (newsList != null){
+            for(News news : newsList){
+                if(news.getStatus().equals("1")){
+                    nList.add(news);
+                }else
+                    continue;
+            }
+            for (News news : nList) {
                 List<Data> dataList = newsDao.getDataByUrl(news.getConnectionUrl());
                 news.setDataList(dataList);
             }
-        return nList;
+            return nList;
+        }else {
+            return null;
+        }
+
     }
 
     @Override
