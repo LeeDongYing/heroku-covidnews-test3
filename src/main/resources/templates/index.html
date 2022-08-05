@@ -23,7 +23,7 @@
     <form th:action="@{/index}" method="get" class="form-inline ">
         <div class="mx-auto">
             <input class="form-control" name="search" type="text" placeholder="請輸入關鍵字" th:value="${result}"/>
-            <button type="submit" class="btn btn-primary  mx-2" onclick="openSearchPage()" >搜尋</button>
+            <button type="submit" class="btn btn-primary  mx-2"  >搜尋</button>
         </div>
 <!--       -->
     </form>
@@ -91,7 +91,7 @@
                 <td class="col-1" th:style="${boderStyle}">[[${news.title}]]</td>
                 <td class="col-sm-7" th:style="${boderStyle}" th:utext="${news.content}"></td>
                 <td class="col-1 h5 text-center text-decoration-none" th:style="${boderStyle}">
-                    <a th:href="@{${news.connectionUrl}}">連結網址</a>
+                    <a th:href="@{${news.connectionUrl}}" target="_blank">連結網址</a>
                 </td>
                 <!-- [[${news.connectionUrl}]]-->
 

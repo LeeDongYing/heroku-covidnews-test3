@@ -25,8 +25,12 @@ public class NewsMvcController {
     @Autowired
     private NewsService newsService;
 
+    @GetMapping("/")
+    public String homepage(){
+        return "redirect:/index";
+    }
 
-    @GetMapping(value = {"/", "/index", "/index.html"})
+    @GetMapping(value = {"/index", "/index.html"})
     public String showNews(Model model, @RequestParam(required = false) String search) throws ParseException, JsonProcessingException {
         model.addAttribute("boderStyle", "border: 1px  black solid");
 
@@ -39,6 +43,8 @@ public class NewsMvcController {
         model.addAttribute("newsList", newsList);
         return "index";
     }
+
+    
 
 
 
