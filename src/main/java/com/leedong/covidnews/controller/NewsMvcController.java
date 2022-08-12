@@ -81,14 +81,7 @@ public class NewsMvcController {
 
     @GetMapping("/updateLatestNews")
     public String updateLatestNews(RedirectAttributes ra) throws ParseException, JsonProcessingException {
-//        try {
-//            newsService.saveNews(requestNews());
-//            ra.addFlashAttribute("message","It's latest news");
-//            return "redirect:/index.html";
-//        }catch (Exception e){
-//            ra.addFlashAttribute("message","It's latest news");
-//            return "index";
-//        }
+
         newsService.saveNews(requestNews());
         return "redirect:/index.html";
     }
