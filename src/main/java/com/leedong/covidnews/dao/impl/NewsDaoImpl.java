@@ -65,10 +65,18 @@ public class NewsDaoImpl implements NewsDao {
         String sql = "SELECT newsId,title,content,connectUrl,created_date,modified_date,status \n" +
                 "FROM news WHERE newsId =:newsId;";
 
+        String datasql ="SELECT explanation,name,connection,connectionUrl " +
+                "FROM data WHERE connectionUrl=:connectionUrl";
+
         Map<String,Object> map =new HashMap<>();
         map.put("newsId",newsId);
 
         List<News> newsList = namedParameterJdbcTemplate.query(sql,map,new NewsRowMapper());
+
+        Map<String,Object> dataMap = new HashMap<>();
+        dataMap.put("connectionUrl",newsList.get(0).getConnectionUrl());
+        List<Data> dataList = namedParameterJdbcTemplate.query(datasql,dataMap,new DataRowMapper());
+        newsList.get(0).setDataList(dataList);
 
         if (newsList.size()>0){
             return newsList.get(0);
