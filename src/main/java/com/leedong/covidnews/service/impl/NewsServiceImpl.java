@@ -31,13 +31,13 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public List<News> getNews(String search) throws JsonProcessingException, ParseException {
-        List<News> newsList =newsDao.getNews(search);
+        List<News> newsList = newsDao.getNews(search);
         List<News> nList = new ArrayList<>();
-        if (newsList != null){
-            for(News news : newsList){
-                if(news.getStatus().equals("1")){
+        if (newsList != null) {
+            for (News news : newsList) {
+                if (news.getStatus().equals("1")) {
                     nList.add(news);
-                }else
+                } else
                     continue;
             }
             for (News news : nList) {
@@ -45,7 +45,7 @@ public class NewsServiceImpl implements NewsService {
                 news.setDataList(dataList);
             }
             return nList;
-        }else {
+        } else {
             return null;
         }
 
@@ -58,17 +58,23 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public void saveNews(ResponseEntity<String> response) throws JsonProcessingException, ParseException {
-        List<News> newsList =  transfer(response);
+        List<News> newsList = transfer(response);
         List<News> nList = new ArrayList<>();
-        for (int i = 0;i<newsList.size();i++){
+        for (int i = 0; i < newsList.size(); i++) {
             News news = newsList.get(i);
             if (newsDao.getNewsByUrl(news) != true) {
+                for (int j = 0; j < news.getDataList().size(); j++) {
+                    Data data = news.getDataList().get(j);
+                    if (newsDao.getDataByUrl(data.getConnectionUrl()) != null) {
+                        news.setDataList(null);
+                    }
+                }
                 nList.add(news);
-            }else{
+            } else {
                 continue;
             }
         }
-        if(nList != null){
+        if (nList != null) {
             newsDao.saveNews(nList);
         } else {
             return;
@@ -108,7 +114,7 @@ public class NewsServiceImpl implements NewsService {
 //            news.setDataList(jArray);
             JSONArray jArray = jsonObject.getJSONArray("附加檔案");
             List<Data> dataList = new ArrayList<>();
-            for (int j = 0 ; j< jArray.length() ;j++){
+            for (int j = 0; j < jArray.length(); j++) {
                 JSONObject jObject = jArray.getJSONObject(j);
                 Data data = new Data();
                 data.setExplanation(jObject.getString("檔案說明"));

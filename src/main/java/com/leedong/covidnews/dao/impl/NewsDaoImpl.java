@@ -34,10 +34,10 @@ public class NewsDaoImpl implements NewsDao {
 
         MapSqlParameterSource[] mapSqlParameterSources = new MapSqlParameterSource[newsList.size()];
 
-        for (int i = 0 ;i < newsList.size() ; i++){
+        for (int i = 0; i < newsList.size(); i++) {
             News news = newsList.get(i);
 
-            for (int j = 0; j<news.getDataList().size();j++) {
+            for (int j = 0; j < news.getDataList().size(); j++) {
                 Map<String, Object> map = new HashMap<>();
                 Data data = news.getDataList().get(j);
                 map.put("explanation", data.getExplanation());
@@ -46,18 +46,18 @@ public class NewsDaoImpl implements NewsDao {
                 map.put("connectionUrl", news.getConnectionUrl());
 
 
-                namedParameterJdbcTemplate.update(sqlDataList,map);
+                namedParameterJdbcTemplate.update(sqlDataList, map);
             }
 
             mapSqlParameterSources[i] = new MapSqlParameterSource();
-            mapSqlParameterSources[i].addValue("title",news.getTitle());
-            mapSqlParameterSources[i].addValue("content",news.getContent());
-            mapSqlParameterSources[i].addValue("connectUrl",news.getConnectionUrl());
-            mapSqlParameterSources[i].addValue("createdDate",news.getCreatedDate());
-            mapSqlParameterSources[i].addValue("modifiedDate",news.getModifiedDate());
-            mapSqlParameterSources[i].addValue("status","1");
+            mapSqlParameterSources[i].addValue("title", news.getTitle());
+            mapSqlParameterSources[i].addValue("content", news.getContent());
+            mapSqlParameterSources[i].addValue("connectUrl", news.getConnectionUrl());
+            mapSqlParameterSources[i].addValue("createdDate", news.getCreatedDate());
+            mapSqlParameterSources[i].addValue("modifiedDate", news.getModifiedDate());
+            mapSqlParameterSources[i].addValue("status", "1");
         }
-        namedParameterJdbcTemplate.batchUpdate(sql,mapSqlParameterSources);
+        namedParameterJdbcTemplate.batchUpdate(sql, mapSqlParameterSources);
     }
 
     @Override
@@ -65,22 +65,22 @@ public class NewsDaoImpl implements NewsDao {
         String sql = "SELECT newsId,title,content,connectUrl,created_date,modified_date,status \n" +
                 "FROM news WHERE newsId =:newsId;";
 
-        String datasql ="SELECT explanation,name,connection,connectionUrl " +
+        String datasql = "SELECT explanation,name,connection,connectionUrl " +
                 "FROM data WHERE connectionUrl=:connectionUrl";
 
-        Map<String,Object> map =new HashMap<>();
-        map.put("newsId",newsId);
+        Map<String, Object> map = new HashMap<>();
+        map.put("newsId", newsId);
 
-        List<News> newsList = namedParameterJdbcTemplate.query(sql,map,new NewsRowMapper());
+        List<News> newsList = namedParameterJdbcTemplate.query(sql, map, new NewsRowMapper());
 
-        Map<String,Object> dataMap = new HashMap<>();
-        dataMap.put("connectionUrl",newsList.get(0).getConnectionUrl());
-        List<Data> dataList = namedParameterJdbcTemplate.query(datasql,dataMap,new DataRowMapper());
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("connectionUrl", newsList.get(0).getConnectionUrl());
+        List<Data> dataList = namedParameterJdbcTemplate.query(datasql, dataMap, new DataRowMapper());
         newsList.get(0).setDataList(dataList);
 
-        if (newsList.size()>0){
+        if (newsList.size() > 0) {
             return newsList.get(0);
-        }else {
+        } else {
             return null;
         }
     }
@@ -89,12 +89,12 @@ public class NewsDaoImpl implements NewsDao {
     public void editNews(News news) {
         String sql = "UPDATE news SET title = :title ,content = :content WHERE newsId = :newsId;";
 
-        Map<String,Object> map = new HashMap<>();
-        map.put("newsId",news.getNewsId());
-        map.put("title",news.getTitle());
-        map.put("content",news.getContent());
+        Map<String, Object> map = new HashMap<>();
+        map.put("newsId", news.getNewsId());
+        map.put("title", news.getTitle());
+        map.put("content", news.getContent());
 
-        namedParameterJdbcTemplate.update(sql,map);
+        namedParameterJdbcTemplate.update(sql, map);
     }
 
     @Override
@@ -106,16 +106,16 @@ public class NewsDaoImpl implements NewsDao {
                 "VALUES (:explanation ,:name , :connection ,:connectionUrl)";
 
 
-        Map<String,Object> mapNews = new HashMap<>();
-        mapNews.put("title",news.getTitle());
-        mapNews.put("content",news.getContent());
-        mapNews.put("connectUrl",news.getConnectionUrl());
+        Map<String, Object> mapNews = new HashMap<>();
+        mapNews.put("title", news.getTitle());
+        mapNews.put("content", news.getContent());
+        mapNews.put("connectUrl", news.getConnectionUrl());
         Date now = new Date();
-        mapNews.put("createdDate",now);
-        mapNews.put("modifiedDate",now);
-        mapNews.put("status","1");
+        mapNews.put("createdDate", now);
+        mapNews.put("modifiedDate", now);
+        mapNews.put("status", "1");
 
-        for(Data data : news.getDataList()){
+        for (Data data : news.getDataList()) {
             if (data != null) {
                 Map<String, Object> mapData = new HashMap<>();
                 mapData.put("explanation", data.getExplanation());
@@ -123,13 +123,13 @@ public class NewsDaoImpl implements NewsDao {
                 mapData.put("connection", data.getConnection());
                 mapData.put("connectionUrl", news.getConnectionUrl());
                 namedParameterJdbcTemplate.update(sqlDataList, mapData);
-            }else
+            } else
                 break;
         }
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        namedParameterJdbcTemplate.update(sql,new MapSqlParameterSource(mapNews),keyHolder);
+        namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource(mapNews), keyHolder);
 
     }
 
@@ -137,13 +137,13 @@ public class NewsDaoImpl implements NewsDao {
     public boolean getNewsByUrl(News news) {
         String sql = "SELECT newsId,title,content,connectUrl,created_date,modified_date,status FROM news WHERE connectUrl = :connectionUrl";
 
-        Map<String,Object> map = new HashMap<>();
-        map.put("connectionUrl",news.getConnectionUrl());
+        Map<String, Object> map = new HashMap<>();
+        map.put("connectionUrl", news.getConnectionUrl());
 
-        List<News> newsList = namedParameterJdbcTemplate.query(sql,map,new NewsRowMapper());
-        if (newsList.size()>0){
+        List<News> newsList = namedParameterJdbcTemplate.query(sql, map, new NewsRowMapper());
+        if (newsList.size() > 0) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
@@ -152,20 +152,20 @@ public class NewsDaoImpl implements NewsDao {
     public List<News> getNews(String search) {
         String sql = "SELECT newsId,title,content,connectUrl,created_date,modified_date,status FROM news WHERE 1=1";
 
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
 
-        if(search != null){
+        if (search != null) {
             sql += " AND title LIKE :search OR content LIKE :search";
-            map.put("search","%" + search + "%");
+            map.put("search", "%" + search + "%");
         }
         //排序
         sql = sql + " ORDER BY created_date desc";
 
-        List<News> newsList = namedParameterJdbcTemplate.query(sql,map,new NewsRowMapper());
+        List<News> newsList = namedParameterJdbcTemplate.query(sql, map, new NewsRowMapper());
 
-        if (newsList.size()>0){
+        if (newsList.size() > 0) {
             return newsList;
-        }else {
+        } else {
             return null;
         }
     }
@@ -174,22 +174,22 @@ public class NewsDaoImpl implements NewsDao {
     public List<Data> getDataByUrl(String connectionUrl) {
         String sql = "SELECT explanation,name,connection FROM data WHERE connectionUrl = :connecturl";
 
-        Map<String,Object> map = new HashMap<>();
-        map.put("connecturl",connectionUrl);
+        Map<String, Object> map = new HashMap<>();
+        map.put("connecturl", connectionUrl);
 
-        List<Data> dataList = namedParameterJdbcTemplate.query(sql,map,new DataRowMapper());
-        if(dataList != null)
+        List<Data> dataList = namedParameterJdbcTemplate.query(sql, map, new DataRowMapper());
+        if (dataList != null)
             return dataList;
         else
             return null;
     }
 
     @Override
-    public void deleteById(Integer newsId){
-        String sql ="UPDATE news SET status = '0' WHERE newsId = :newsId;";
+    public void deleteById(Integer newsId) {
+        String sql = "UPDATE news SET status = '0' WHERE newsId = :newsId;";
 
-        Map<String,Object> map = new HashMap<>();
-        map.put("newsId",newsId);
+        Map<String, Object> map = new HashMap<>();
+        map.put("newsId", newsId);
 
         namedParameterJdbcTemplate.update(sql, map);
 

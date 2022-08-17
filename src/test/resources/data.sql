@@ -15,3 +15,5 @@ VALUES ('兼顧防疫及醫療量能　滾動修正社區篩檢站設置'
         ,'2022-08-09 00:00:00'
         ,'2022-08-09 00:00:00'
         ,'1');
+INSERT INTO data(explanation,name,connection,connectionUrl)
+VALUES('【附件】','File_19489.pdf','https://www.hpa.gov.tw/Pages/ashx/File.ashx?FilePath=~/File/Attach/15942/File_19489.pdf','https://www.hpa.gov.tw/Pages/Detail.aspx?nodeid=4576&pid=15942');
